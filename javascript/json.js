@@ -5,26 +5,29 @@ let myLink = "http://petlatkea.dk/2019/students1991.json";
 
 const template = document.querySelector("template").content;
 const parent = document.querySelector("main");
+const list = document.querySelector("main ul");
 
 function loadData(link) {
-    fetch(link).then(e => e.json()).then(data => show(data));
+  fetch(link)
+    .then(e => e.json())
+    .then(data => show(data));
 }
 
 function show(data) {
-    data.forEach(object => {
+  data.forEach(object => {
     console.log(object);
     // clone the template
     const clone = template.cloneNode(true);
+
+    // create list
+    let newLi = document.createElement("li");
 
     // populate the template
     clone.querySelector("ul li").textContent = object.fullname;
     clone.querySelector("h3").textContent = object.house;
 
-
     // append to the DOM
     parent.appendChild(clone);
-
-    });
-
+  });
 }
 loadData(myLink);
