@@ -201,6 +201,10 @@ main {
   top: 1.5rem;
   right: 1.5rem;
 }
+#modal h2 {
+  font-size: 2rem;
+  color: white;
+}
 .colorSlit {
   background: rgba(22, 48, 42, 0.9);
 }
@@ -214,5 +218,8 @@ main {
   background: blue;
 }
 .hide {
-  display: none;
+  display: none !important;
+}
+button {
+  cursor: pointer;
 }

@@ -4,6 +4,7 @@ let myLink = "https://petlatkea.dk/2019/students1991.json";
 
 const parent = document.querySelector("main");
 const list = document.querySelector("main ul");
+const filter = document.querySelector("main select");
 
 function loadData(link) {
   fetch(link)
@@ -12,6 +13,7 @@ function loadData(link) {
 }
 
 function show(data) {
+  console.log(data);
   data.forEach(object => {
     //console.log(data);
     // clone the template
@@ -23,15 +25,77 @@ function show(data) {
     let house = object.house;
 
     newLi.textContent = name + ", " + house;
+    newLi.style.cursor = "pointer";
+    newLi.addEventListener("click", openModel);
 
     // append to the DOM
     list.appendChild(newLi);
-  });
-  const newArr = new Array(document.querySelectorAll("main ul li"));
 
-  console.log(newArr["0"]["0"].innerText);
+    //fill modal
+    function openModel() {
+      console.log(object.fullname);
+      modal.classList.remove("hide");
+      document.querySelector("#modal h2").textContent = object.fullname;
+      if (object.house == "Hufflepuff") {
+        modal.classList.add("colorHuf");
+        crest.classList.add("crestHuf");
+      } else if (object.house == "Gryffindor") {
+        modal.classList.add("colorGrif");
+        crest.classList.add("crestGrif");
+      } else if (object.house == "Ravenclaw") {
+        modal.classList.add("colorRaven");
+      } else {
+        modal.classList.add("colorSlit");
+        crest.classList.add("crestSlit");
+      }
+    }
+    //filter
+    let newOption = document.createElement("option");
+    newOption.textContent = object.house;
+
+    filter.appendChild(newOption);
+  });
+  ///const newArr = new Array(document.querySelectorAll("main ul li"));
 }
 loadData(myLink);
+const modal = document.querySelector("#modal");
+const crest = document.querySelector(".image");
+const modalCloseBtn = document.querySelector("#modal button");
+
+modalCloseBtn.addEventListener("click", modalClose);
+
+function modalClose() {
+  modal.classList = "";
+  crest.classList = "";
+  crest.classList.add("image");
+  modal.classList.add("hide");
+}
+
+const sortFn = document.querySelector("#firstname");
+const sortLn = document.querySelector("#lastname");
+
+sortFn.addEventListener("click", sortFirstName);
+sortLn.addEventListener("click", sortLastName);
+let counter = 0;
+
+function sortFirstName() {
+  if (counter == 0) {
+    sortFn.textContent = "First name (Z-A)";
+    counter++;
+  } else {
+    sortFn.textContent = "First name (A-Z)";
+    counter = 0;
+  }
+}
+function sortLastName() {
+  if (counter == 0) {
+    sortLn.textContent = "Last name (Z-A)";
+    counter++;
+  } else {
+    sortLn.textContent = "Last name (A-Z)";
+    counter = 0;
+  }
+}
 
 // sort first name by asc (.sort)
 // if first name is asc use desc (.reverse)
