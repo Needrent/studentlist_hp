@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
+/*--------------------------Code start at 130*/
 html,
 body,
 div,
@@ -136,6 +136,11 @@ table {
 /* varibles */
 :root {
   --heading: harryPotter;
+  --background-color: black;
+  --background-color-hufflepuff: rgb(236, 236, 12);
+  --background-color-gryffindor: rgb(236, 94, 12);
+  --background-color-slytherin: rgb(15, 199, 77);
+  --background-color-ravenclaw: rgb(28, 24, 214);
 }
 
 h1 {
@@ -143,22 +148,87 @@ h1 {
   letter-spacing: 0.1rem;
   font-size: 4rem;
 }
-
-ul {
-  width: 100%;
-}
-li {
-  background: gray;
-  padding: 0.5rem;
-  width: 100%;
-}
-li:nth-child(even) {
-  background: lightgray;
-}
 main {
-  width: 50%;
+  width: 95%;
   margin: auto;
 }
+/*--------------------Student list*/
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+th {
+  font-weight: bold;
+  cursor: pointer;
+  text-align: left;
+  background: var(--background-color);
+  color: white;
+  padding: 0.5rem;
+}
+tr:nth-child(1),
+th:nth-child(1) {
+  width: 2rem;
+}
+th:nth-child(1) {
+  cursor: default;
+}
+td:nth-child(1){
+  position: relative;
+}
+.prefect{
+  position: absolute;
+  width: 2.4rem;
+  height: 2.4rem;
+  bottom: 0.5rem;
+  right: 0;
+  transform: rotate(45deg);
+  box-shadow: 5px 5px 0px black;
+}
+.prefect::before{
+  content: "P";
+  top: 15%;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  transform: rotate(-45deg);
+  font-family: sans-serif;
+  font-weight: bold;
+  text-shadow: 0px 0px 5px white;
+  font-size: 2rem;
+}
+.prefect-huf{
+  background: var(--background-color-hufflepuff);
+}
+.prefect-grif{
+  background: var(--background-color-gryffindor);
+}
+.prefect-slit{
+  background: var(--background-color-slytherin);
+}
+.prefect-raven{
+  background: var(--background-color-ravenclaw);
+}
+td img 
+  width: 100%;
+  height: auto;
+}
+td:nth-child(1) {
+  padding: 0;
+}
+tr {
+  cursor: pointer;
+}
+tr:nth-child(even) {
+  /*background: lightgray;*/
+}
+td {
+  padding: 0 0 0 0.5rem;
+  vertical-align: middle;
+}
+/*-------------------------------------modal*/
 .image {
   position: relative;
   content: " ";

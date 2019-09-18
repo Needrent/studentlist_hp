@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>Hogwarts Student list 2019/2020</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
@@ -10,29 +10,41 @@
   <body>
     <main>
       <h1>hogwarts</h1>
-      <h2>Studentlist</h2>
-      <button id="firstname">First name (A-Z)</button>
-      <button id="lastname">Last name (A-Z)</button>
-      <select>
-        <option value="all">All houses</option>
-      </select>
-      <ul></ul>
-      <section id="modal" class="colorSlit hide">
-        <button>X</button>
-        <section id="info">
-          <img
-            src="https://loremflickr.com/320/240/harrypotter"
-            alt="student image"
-          />
-          <h2>Student name</h2>
-        </section>
-        <div class="image">
-          <img
-            src="https://pexels-library.com/images/hogwarts-crest-clipart/hogwarts-crest-clipart-30.jpg"
-            alt="'arry Potter'"
-          />
-        </div>
-      </section>
+      <label>
+        Filter:
+        <button class="filter" data-filter="gryffindor">Gryffindor</button>
+        <button class="filter" data-filter="hufflepuff">Hufflepuff</button>
+        <button class="filter" data-filter="ravenclaw">Ravenclaw</button>
+        <button class="filter" data-filter="slytherin">Slytherin</button>
+        <button class="filter" data-filter="*">all</button>
+      </label>
+
+      <hr />
+
+      <table id="list">
+        <thead>
+          <tr id="sorting">
+            <th></th>
+            <th data-sort="firstName">First name</th>
+            <th data-sort="lastName">Last name(s)</th>
+            <th data-sort="house">House</th>
+            <!--th data-sort="prefect"></th-->
+          </tr>
+        </thead>
+        <tbody>
+          <template id="student">
+            <tr>
+              <td data-field="studentImage">
+                <img src="/images/placeholder.png" alt="placeholder" />
+              </td>
+              <td data-field="firstName">firstName</td>
+              <td data-field="lastName">lastName</td>
+              <td data-field="house">house</td>
+            </tr>
+          </template>
+          <!-- template area/target -->
+        </tbody>
+      </table>
     </main>
   </body>
   <script src="javascript/json.js"></script>

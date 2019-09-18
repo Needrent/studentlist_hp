@@ -1,116 +1,83 @@
-// Fetch student data
-// class list add house
-let myLink = "https://petlatkea.dk/2019/students1991.json";
+"use strict";
 
-const parent = document.querySelector("main");
-const list = document.querySelector("main ul");
-const filter = document.querySelector("main select");
+// Listen for the browser to load the DOM
+window.addEventListener("DOMContentLoaded", start);
 
-function loadData(link) {
-  fetch(link)
-    .then(e => e.json())
-    .then(data => show(data));
+//Empty array for the student list
+const allStudents = [];
+
+//Start
+function start() {
+  console.log("ready");
+
+  // TODO: Add event-listeners to filter and sort buttons
+
+  loadJSON();
 }
 
-function show(data) {
-  console.log(data);
-  data.forEach(object => {
-    //console.log(data);
-    // clone the template
+function loadJSON() {
+  fetch("http://petlatkea.dk/2019/hogwartsdata/students.json")
+    .then(response => response.json())
+    .then(jsonData => {
+      // when loaded, prepare objects
+      prepareObjects(jsonData);
+    });
+}
 
-    // create list
-    let newLi = document.createElement("li");
+function prepareObjects(jsonData) {
+  jsonData.forEach(jsonObject => {
+    // TODO: Create new object with cleaned data
+    const student = Object.create(Student);
 
-    let name = object.fullname;
-    let house = object.house;
+    //TODO interpret jsonObject into their properties
+    student.firstName = jsonObject.fullname.split(" ")[0];
+    student.lastName = jsonObject.fullname.split(" ")[2];
+    student.gender = jsonObject.gender;
+    student.house = jsonObject.house;
 
-    newLi.textContent = name + ", " + house;
-    newLi.style.cursor = "pointer";
-    newLi.addEventListener("click", openModel);
-
-    // append to the DOM
-    list.appendChild(newLi);
-
-    //fill modal
-    function openModel() {
-      console.log(object.fullname);
-      modal.classList.remove("hide");
-      document.querySelector("#modal h2").textContent = object.fullname;
-      if (object.house == "Hufflepuff") {
-        modal.classList.add("colorHuf");
-        crest.classList.add("crestHuf");
-      } else if (object.house == "Gryffindor") {
-        modal.classList.add("colorGrif");
-        crest.classList.add("crestGrif");
-      } else if (object.house == "Ravenclaw") {
-        modal.classList.add("colorRaven");
-      } else {
-        modal.classList.add("colorSlit");
-        crest.classList.add("crestSlit");
-      }
-    }
-    //filter
-    let newOption = document.createElement("option");
-    newOption.textContent = object.house;
-
-    filter.appendChild(newOption);
+    allStudents.push(student);
+    //  console.log(student);
   });
-  ///const newArr = new Array(document.querySelectorAll("main ul li"));
-}
-loadData(myLink);
-const modal = document.querySelector("#modal");
-const crest = document.querySelector(".image");
-const modalCloseBtn = document.querySelector("#modal button");
-
-modalCloseBtn.addEventListener("click", modalClose);
-
-function modalClose() {
-  modal.classList = "";
-  crest.classList = "";
-  crest.classList.add("image");
-  modal.classList.add("hide");
 }
 
-const sortFn = document.querySelector("#firstname");
-const sortLn = document.querySelector("#lastname");
+function displayList(student) {
+  // clear the list
+  document.querySelector("#list tbody").innerHTML = " ";
 
-sortFn.addEventListener("click", sortFirstName);
-sortLn.addEventListener("click", sortLastName);
-let counter = 0;
-
-function sortFirstName() {
-  if (counter == 0) {
-    sortFn.textContent = "First name (Z-A)";
-    counter++;
-  } else {
-    sortFn.textContent = "First name (A-Z)";
-    counter = 0;
-  }
-}
-function sortLastName() {
-  if (counter == 0) {
-    sortLn.textContent = "Last name (Z-A)";
-    counter++;
-  } else {
-    sortLn.textContent = "Last name (A-Z)";
-    counter = 0;
-  }
+  // build a new list
+  student.forEach(displayStudent);
 }
 
-// sort first name by asc (.sort)
-// if first name is asc use desc (.reverse)
+function displayStudent(student) {
+  // create clone
+  const clone = document
+    .querySelector("template#student")
+    .content.cloneNode(true);
 
-// sort last name by asc (.sort)
-// if last name is asc use desc (.reverse)
+  // set clone data
+  clone.querySelector("[data-field=firstName]").textContent = "dims01";
+  clone.querySelector("[data-field=lastName]").textContent = "dims02";
+  clone.querySelector("[data-field=house]").textContent = "dims03";
 
-// set filter all to standard
-// show all
-// if gryffindor is clicked, hide hufflepuff, ravenclaw, slytherin
-// if else hufflepuff is clicked, hide gryffindor, ravenclaw, slytherin
-// if else ravenclaw is clicked, hide hufflepuff, gryffindor, slytherin
-// if else slytherin is clicked, hide hufflepuff, ravenclaw, gryffindor
+  /*
+    student.firstName = jsonObject.fullname.split(" ")[0];
+    student.lastName = jsonObject.fullname.split(" ")[2];
+    student.gender = jsonObject.gender;
+    student.house = jsonObject.house;
+  */
 
-//modal make student click event (names and house)
-//Open model
+  // append clone to list
+  document.querySelector("#list tbody").appendChild(clone);
+}
 
-//click modal to close
+// Student Object Prototype
+const Student = {
+  name: "-name-",
+  house: "-type-",
+  gender: "-boy/girl-",
+  blood: "-muggle-",
+  prefect: false,
+  expelled: false,
+  id: 0,
+  inquisitor: false
+};
