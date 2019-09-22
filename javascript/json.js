@@ -114,7 +114,7 @@ function displayStudent(student) {
   clone.querySelector("[data-field=house]").textContent = student.house;
   clone.querySelector(
     "[data-field=studentImage] img"
-  ).src = `/images/${student.img}.png`;
+  ).src = `images/${student.img}.png`;
   clone.querySelector(
     "[data-field=studentImage] img"
   ).alt = `${student.firstName}`;
