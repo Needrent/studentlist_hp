@@ -11,8 +11,18 @@ function start() {
   console.log("ready");
 
   // TODO: Add event-listeners to filter and sort buttons
+  document
+    .querySelector(`[data-sort=firstName]`)
+    .addEventListener("click", check);
+  document
+    .querySelector(`[data-sort=lastName]`)
+    .addEventListener("click", check);
+  document.querySelector(`[data-sort=house]`).addEventListener("click", check);
 
   loadJSON();
+}
+function check() {
+  console.log("click");
 }
 
 function loadJSON() {
@@ -29,20 +39,64 @@ function prepareObjects(jsonData) {
     // TODO: Create new object with cleaned data
     const student = Object.create(Student);
 
+    const nameArr = jsonObject.fullname.split(" "); // Catch all names and make them an array
+
+    // Clean the House name by removing the spaces (trim) and the making the first char uppercase
+    // https://joshtronic.com/2016/02/14/how-to-capitalize-the-first-letter-in-a-string-in-javascript/
+    const lower = jsonObject.house.trim().toLowerCase();
+    const upper = lower.charAt(0).toUpperCase() + lower.substring(1);
+    // End
+
+    // Removes Array objects that are empty because of extra spaces
+    // https://tecadmin.net/remove-array-element-by-value-in-javascript/
+    var index = nameArr.indexOf("");
+
+    if (index > -1) {
+      nameArr.splice(index, 1);
+    }
+    // End
+
+    //Looks how many names the student has and write them out accordingly
     //TODO interpret jsonObject into their properties
-    student.firstName = jsonObject.fullname.split(" ")[0];
-    student.lastName = jsonObject.fullname.split(" ")[2];
+    if (nameArr.length >= 3) {
+      student.firstName = nameArr[0];
+      student.middelName = nameArr[1];
+      student.lastName = nameArr[2];
+      student.splitLastName = nameArr[0].split("");
+    } else if (nameArr.length >= 2) {
+      student.firstName = nameArr[0];
+      student.lastName = nameArr[1];
+      student.splitLastName = nameArr[0].split("");
+    } else {
+      student.firstName = nameArr[0];
+    }
+
+    if (student.lastName == null) {
+      student.img = "placeholder";
+    } else {
+      student.img = `${student.lastName.toLowerCase()}_${student.splitLastName[0].toLowerCase()}`;
+    }
     student.gender = jsonObject.gender;
-    student.house = jsonObject.house;
+    student.house = upper;
 
     allStudents.push(student);
-    //  console.log(student);
   });
+  filterList(allStudents);
+}
+function filterList(list) {
+  // TODO: Add filtering, according to setting
+  const filteredList = list; // right now, just don't filter anything
+  sortList(filteredList);
+}
+
+function sortList(list) {
+  // TODO: Sort the list that is received, before displaying it
+  displayList(list);
 }
 
 function displayList(student) {
   // clear the list
-  document.querySelector("#list tbody").innerHTML = " ";
+  document.querySelector("#list tbody").innerHTML = "";
 
   // build a new list
   student.forEach(displayStudent);
@@ -55,16 +109,15 @@ function displayStudent(student) {
     .content.cloneNode(true);
 
   // set clone data
-  clone.querySelector("[data-field=firstName]").textContent = "dims01";
-  clone.querySelector("[data-field=lastName]").textContent = "dims02";
-  clone.querySelector("[data-field=house]").textContent = "dims03";
-
-  /*
-    student.firstName = jsonObject.fullname.split(" ")[0];
-    student.lastName = jsonObject.fullname.split(" ")[2];
-    student.gender = jsonObject.gender;
-    student.house = jsonObject.house;
-  */
+  clone.querySelector("[data-field=firstName]").textContent = student.firstName;
+  clone.querySelector("[data-field=lastName]").textContent = student.lastName;
+  clone.querySelector("[data-field=house]").textContent = student.house;
+  clone.querySelector(
+    "[data-field=studentImage] img"
+  ).src = `/images/${student.img}.png`;
+  clone.querySelector(
+    "[data-field=studentImage] img"
+  ).alt = `${student.firstName}`;
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
